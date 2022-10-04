@@ -292,7 +292,7 @@ VALUES ('Kyle', 'Harwood', 9, 3.0)
 # Then query the studets table to get that student by their id
 # Print the new student's id, full name, and gpa to the terminal
 def problem_six(request):
-    student_id = 11
+    student_id = 13
     Student.objects.filter(id = student_id).update(gpa = 3.9)
     student = Student.objects.get(id = student_id)
     print()
@@ -345,7 +345,7 @@ LIMIT 21
 def problem_seven(request):
 
     # Make sure to set this equal to the primary key of the row you just created!
-    student_id = 11
+    student_id = 13
 
     Student.objects.filter(id = student_id).delete()
 
@@ -404,8 +404,13 @@ SELECT `school_db_student`.`id`,
 # Find all of the instructors that only belong to a single course
 # Print out the instructors full name and number of courses to the console
 def bonus_problem(request):
-
-    return complete(request)
+  
+  instructors = Instructor.objects.annotate(course_count = Count('course')).filter(course_count = 1)
+  print()
+  for instructor in instructors:
+    print(f'Instructor Name: {instructor.first_name} {instructor.first_name}')
+  print()
+  return complete(request)
 
 
 # Supporting Query Method Documentation:
